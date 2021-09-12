@@ -59,6 +59,9 @@ class StravaFlutterPage extends StatefulWidget {
 }
 
 class _StravaFlutterPageState extends State<StravaFlutterPage> {
+
+  var myData = null;
+
   @override
   void initState() {
     setState(() {
@@ -292,6 +295,7 @@ class _StravaFlutterPageState extends State<StravaFlutterPage> {
       if (response.statusCode == 200) {
         String data = response.body;
         var decodedData = jsonDecode(data);
+        setState((){ myData = decodedData;});
         print(decodedData);
       } else {
         print("FAILED1");
@@ -372,6 +376,7 @@ class _StravaFlutterPageState extends State<StravaFlutterPage> {
             ),
             Text(' '),
             Text(''),
+            Text("$myData"),
             Text(''),
             Text('Push this button'),
             Text(
