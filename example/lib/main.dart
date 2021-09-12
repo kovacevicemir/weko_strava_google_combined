@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:example/new_api_examples.dart';
 import 'package:flutter/material.dart';
 // To remove # at the end of redirect url when in web mode (not mobile)
@@ -11,6 +14,9 @@ import 'package:example/secret.dart';
 import 'package:example/permissions.dart';
 
 import 'package:strava_flutter/strava.dart';
+
+import 'package:http/http.dart' as http;
+
 
 // Used by example
 
@@ -41,6 +47,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class StravaFlutterPage extends StatefulWidget {
   StravaFlutterPage({Key key, this.title}) : super(key: key);
@@ -261,6 +268,39 @@ class _StravaFlutterPageState extends State<StravaFlutterPage> {
     return fault;
   }
 
+  Future<http.Response> fetchAlbum() {
+    return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+  }
+
+
+  void testingFetch() async{
+
+    var stravaToken = await NewApiExamples.client.getAccessTokenEmir();
+    print(stravaToken);
+
+    print("HELLLO");
+    print(stravaToken.runtimeType);
+
+    var extractedToken = stravaToken.substring(141,181);
+
+    var emirUrl = 'https://www.strava.com/api/v3/athlete/activities?access_token=${extractedToken}';
+    print(emirUrl);
+
+    var url = Uri.parse('https://www.strava.com/api/v3/athlete/activities?access_token=${extractedToken}');
+    http.Response response = await http.get(url);
+    try {
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data);
+        print(decodedData);
+      } else {
+        print("FAILED1");
+      }
+    } catch (e) {
+     print("FAILED2");
+    }
+  }
+
   void deAuthorize() async {
     // need to get authorized before (valid token)
     final strava = Strava(
@@ -320,8 +360,8 @@ class _StravaFlutterPageState extends State<StravaFlutterPage> {
             Text(''),
             Text('Upload with authentication'),
             RaisedButton(
-              child: Text('upload'),
-              onPressed: upload,
+              child: Text('testFetching'),
+              onPressed: testingFetch,
             ),
             Text(''),
             Text(''),

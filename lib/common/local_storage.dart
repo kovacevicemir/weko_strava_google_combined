@@ -29,6 +29,13 @@ class LocalStorageManager{
     }else{
       completer.complete(Token.fromRawJson(tokenJson));
     }
+    print(tokenJson);
     return completer.future;
+  }
+
+  static Future<String?> getAccessTokenEmirStorage() async{
+    var sharedPrefs = await SharedPreferences.getInstance();
+    var tokenJson = sharedPrefs.getString(_kTokenKey);
+    return tokenJson;
   }
 }

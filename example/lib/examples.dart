@@ -130,7 +130,7 @@ Future<Fault> exampleSegment(String secret) async {
   print(' segment $_seg');
 
   // Get the list of segments that have been starred by the loggedin athlete
-  SegmentsList _list = await strava.getLoggedInAthleteStarredSegments();
+  SegmentsList _list = (await strava.getLoggedInAthleteStarredSegments()) as SegmentsList;
 
   _list.segments.forEach((seg) =>
       print('Starred segment: ${seg.id}  ${seg.name} ${seg.maximumGrade}'));

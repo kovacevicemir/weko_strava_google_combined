@@ -23,4 +23,10 @@ class StravaClient
   Future<Token?> getStravaAuthToken(){
     return LocalStorageManager.getToken();
   }
+
+  Future<String?> getAccessTokenEmir() async{
+    return await LocalStorageManager.getAccessTokenEmirStorage();
+  }
+
+
 }
