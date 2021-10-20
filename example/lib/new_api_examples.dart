@@ -1,4 +1,4 @@
-import 'package:example/main.dart';
+import 'main.dart';
 import 'package:example/secret.dart';
 import 'package:strava_flutter/models/strava_auth_scopes.dart';
 import 'package:strava_flutter/models/strava_fault.dart';
@@ -7,15 +7,20 @@ import 'package:strava_flutter/strava_client.dart';
 class NewApiExamples{
   static StravaClient client = StravaClient(secret, clientId);
 
-  static void testAuthentication(){
-    client.authenticate(
-        scopes: [StravaAuthScope.profile_read_all, StravaAuthScope.read_all,StravaAuthScope.profile_write,StravaAuthScope.activity_read_all],
-        redirectUrl: "stravaflutter://redirect/"
-    ).catchError((error, stackTrace)=>print("Error authenticating: $error\n$stackTrace"))
-      .then((value){
-      print("Successfully authenticated strava");
-      getClubActivities(898559);
-    });
+  static void testAuthentication() async{
+    try {
+      await client.authenticate(
+          scopes: [
+            StravaAuthScope.profile_read_all,
+            StravaAuthScope.read_all,
+            StravaAuthScope.activity_read_all
+          ],
+          redirectUrl: "stravaflutter://redirect/"
+      );
+    }
+    catch(e){
+      print(e);
+    }
   }
 
   static void getLoggedInAthlete(){
